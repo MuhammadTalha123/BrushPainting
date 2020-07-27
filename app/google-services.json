@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "301370134786",
+    "firebase_url": "https://general-app-9d64f.firebaseio.com",
+    "project_id": "general-app-9d64f",
+    "storage_bucket": "general-app-9d64f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:301370134786:android:577bbcf585fa256cd1321b",
+        "android_client_info": {
+          "package_name": "com.example.brushpainting"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "301370134786-liacop8rrvl8qjof9n8ili4r9di1cce3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAS3DnqMFsZ6rRFxZ-Red0clGADrHmT5QA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "301370134786-liacop8rrvl8qjof9n8ili4r9di1cce3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

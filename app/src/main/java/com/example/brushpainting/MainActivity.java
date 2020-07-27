@@ -1,16 +1,24 @@
 package com.example.brushpainting;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.util.UUID;
@@ -21,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DrawingView mDrawingView;
     private ImageButton currPaint, drawButton, eraseButton, newButton, saveButton;
     private float smallBrush, mediumBrush, largeBrush;
+    private StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         newButton.setOnClickListener(this);
         saveButton = (ImageButton) findViewById(R.id.buttonSave);
         saveButton.setOnClickListener(this);
+
+        storageReference = FirebaseStorage.getInstance().getReference("drawing images");
 
         smallBrush = getResources().getInteger(R.integer.small_size);
         mediumBrush = getResources().getInteger(R.integer.medium_size);
@@ -204,6 +215,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 // Destroy the current cache.
                 mDrawingView.destroyDrawingCache();
+
+                uploadImageToFirebase(imgSaved);
+            }
+
+            private void uploadImageToFirebase(final String imgSaved) {
+
+                // upload image to firebase storage
+                StorageReference fileRef = storageReference.child(imgSaved);
+                fileRef.putFile(Uri.parse(imgSaved)).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(MainActivity.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(MainActivity.this, "Image Not Uploaded", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
         });
         saveDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
